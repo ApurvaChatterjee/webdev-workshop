@@ -1,5 +1,5 @@
 const TRIVIA_API_URL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=easy&type=multiple"; // see https://opentdb.com/api_config.php
-const TENOR_API_KEY = "MY_TENOR_API_KEY"; // you need to replace this with your own API key from Tenor (see https://tenor.com/gifapi)
+const TENOR_API_KEY = "OYI9027EG189"; // you need to replace this with your own API key from Tenor (see https://tenor.com/gifapi)
 const TENOR_API_URL = "https://g.tenor.com/v1/search?q=QUERY&key=API_KEY&limit=10".replace("API_KEY", TENOR_API_KEY);
 
 let correct_answer = ""; // the current correct answer
