@@ -19,10 +19,12 @@
             }
             body {
                 height: 100%;
-
                 text-align: center;
-                color: #0c0c0d;
-                font-size: 24px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                
+                
 
                 background: url(https://images.unsplash.com/photo-1572975165675-ab322e4b55ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80);
                 background-size: 150% 150%;
@@ -34,18 +36,31 @@
 
                 0% {
                     background-position: left;
+                    
                 }
 
                 50% {
                     background-position: right;
+                    
                 }
 
                 100% {
                     background-position: left;
+                    
                 }
             }
             h1, h2 {
+                color: tomato;
                 font-family: 'Titan one', cursive;
+            }
+            h1 {
+                font-size: 60px;
+            }
+            h2 {
+                font-size: 40px;
+            }
+            i {
+                color: tomato;
             }
             a {
                 text-decoration: none;
