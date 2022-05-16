@@ -1,6 +1,6 @@
-const TRIVIA_API_URL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=easy&type=multiple"; // see https://opentdb.com/api_config.php
-const TENOR_API_KEY = "MY_TENOR_API_KEY"; // you need to replace this with your own API key from Tenor (see https://tenor.com/gifapi)
-const TENOR_API_URL = "https://g.tenor.com/v1/search?q=QUERY&key=API_KEY&limit=10".replace("API_KEY", TENOR_API_KEY);
+const TRIVIA_API_URL = "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple"; // see https://opentdb.com/api_config.php
+const TENOR_API_KEY = "OYI9027EG189"; // you need to replace this with your own API key from Tenor (see https://tenor.com/gifapi)
+const TENOR_API_URL = "https://g.tenor.com/v1/search?q=QUERY&key=API_KEY&limit=10".replace("OYI9027EG189", TENOR_API_KEY);
 
 let correct_answer = ""; // the current correct answer
 let level = 1; // the current level
@@ -41,7 +41,7 @@ function when_wrong_answer(clicked_button) {
     highlight_answer_button(clicked_button, "answer_button_wrong");
     after_n_seconds(function() {
         check_lives(when_game_over, fetch_new_question);
-    }, 1);
+    }, );
 }
 
 function when_game_over() {
