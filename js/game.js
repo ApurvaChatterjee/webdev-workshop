@@ -1,38 +1,161 @@
-// global consts
 const TRIVIA_API_URL = "https://opentdb.com/api.php?amount=1&category=11&difficulty=easy&type=multiple"; // see https://opentdb.com/api_config.php
-const TENOR_API_URL = "https://g.tenor.com/v1/search?q=QUERY&key=API_KEY&limit=10";
-const TENOR_API_KEY = ""; // you need to add your own API key from Tenor and replace API_KEY in TENOR_API_URL. See https://tenor.com/gifapi
+const TENOR_API_KEY = "MY_TENOR_API_KEY"; // you need to replace this with your own API key from Tenor (see https://tenor.com/gifapi)
+const TENOR_API_URL = "https://g.tenor.com/v1/search?q=QUERY&key=API_KEY&limit=10".replace("API_KEY", TENOR_API_KEY);
 
-function on_page_load() {
-    console.log("Page has loaded ...");
-    fetch_a_question{};
-}
-function on_question_fetched{question_text, correct_answer, incorrect_answers} {
-    update_question_ui{};
-    fetch_image{};
-}
-function on_image_fetched{} {
-    update_image_UI{};
+let correct_answer = ""; // the current correct answer
+let level = 1; // the current level
+let lives = 3; // the number of lives remaining
+
+function when_page_load() {
+    register_answer_button_clicks();
+    fetch_new_question();
 }
 
-function fetch_a_question{} {
-   console.log("fetch a question ...")
-   fetch(TRIVIA_API_URL)
-        .then(response => response.json[])
+function when_question_load(question, answer_options, answer) {
+    update_question_text(question);
+    update_answer_buttons_text(answer_options);
+    store_correct_answer(answer);
+    fetch_clue_image_gif(answer);
+}
+
+function when_clue_image_gif_load(gif_url) {
+    update_clue_image(gif_url);
+}
+
+function when_answer_button_click(clicked_button) {
+    check_answer(clicked_button, when_correct_answer, when_wrong_answer);
+}
+
+function when_correct_answer(clicked_button) {
+    highlight_answer_button(clicked_button, "answer_button_correct");
+    after_n_seconds(function() {
+        increment_level();
+        update_level_heading();
+        fetch_new_question();
+    }, 1);
+}
+
+function when_wrong_answer(clicked_button) {
+    decrement_lives();
+    update_lives();
+    highlight_answer_button(clicked_button, "answer_button_wrong");
+    after_n_seconds(function() {
+        check_lives(when_game_over, fetch_new_question);
+    }, 1);
+}
+
+function when_game_over() {
+    update_question_text("GAME OVER!");
+    fetch_clue_image_gif("game over");
+    hide_answer_buttons();
+    after_n_seconds(go_to_homepage, 3);
+}
+
+function register_answer_button_clicks() {
+    let answer_buttons = document.getElementsByClassName("answer_button");
+    for (let i = 0; i < answer_buttons.length; ++i) {
+        answer_buttons[i].addEventListener("click", function(event) {
+            when_answer_button_click(event.currentTarget);
+        });
+    }
+}
+
+function fetch_new_question() {
+    fetch(TRIVIA_API_URL)
+        .then(response => response.json())
         .then(data => {
-            console.log(data);
-            const question_text = data["results"][0]["questions"];
-            const correct_answer = data[]
-
-        });    
+            question = data["results"][0]["question"];
+            answer = data["results"][0]["correct_answer"];
+            answer_options = data["results"][0]["incorrect_answers"];
+            answer_insert_index = Math.floor(Math.random() * 4);
+            answer_options.splice(answer_insert_index, 0, answer); 
+            when_question_load(question, answer_options, answer);
+        });
 }
-function update_question_ui{} {
 
+function update_question_text(question) {
+    document.getElementById("question_text").innerHTML = question;
 }
-function fetch_image{} {
 
+function update_answer_buttons_text(answer_options) {
+    let answer_buttons = document.getElementsByClassName("answer_button");
+    for (let i = 0; i < answer_buttons.length; ++i) {
+        answer_buttons[i].innerHTML = answer_options[i];
+    }
 }
-function update_image_UI{} {
 
+function store_correct_answer(answer) {
+    correct_answer = answer;
 }
-window.onload = on_page_load;
+
+function fetch_clue_image_gif(answer) {
+    fetch(TENOR_API_URL.replace("QUERY", answer))
+        .then(response => response.json())
+        .then(data => {
+            const results_length = data["results"].length;
+            const random_index = Math.floor(Math.random() * results_length);
+            const media = data["results"][random_index]["media"][0];
+            when_clue_image_gif_load(media["nanogif"]["url"]);
+        });       
+}
+
+function update_clue_image(gif_url) {
+    document.getElementById("question_clue_image").setAttribute("src", gif_url);
+}
+
+function check_answer(clicked_button, when_correct_answer, when_wrong_answer) {
+    if (clicked_button.innerHTML === correct_answer) {
+        when_correct_answer(clicked_button);
+    } else {
+        when_wrong_answer(clicked_button);
+    }
+}
+
+function highlight_answer_button(clicked_button, highlight_class) {
+    clicked_button.classList.add(highlight_class);
+    setTimeout(function() {
+        clicked_button.classList.remove(highlight_class);
+    }, 1000);
+}
+
+function after_n_seconds(function_to_execute, n) {
+    setTimeout(function_to_execute, n * 1000);
+}
+
+function increment_level() {
+    level = level + 1;
+}
+
+function update_level_heading() {
+    document.getElementById("level_heading").textContent = "Level " + level;
+}
+
+function decrement_lives() {
+    lives = lives - 1;
+}
+
+function update_lives() {
+    let lives = document.getElementsByClassName("ri-heart-3-fill");
+    lives[lives.length-1].className = "ri-heart-3-line";
+}
+
+function check_lives(when_game_over, fetch_new_question) {
+    if (lives === 0) {
+        when_game_over();
+    } else {
+        fetch_new_question();
+    }
+}
+
+function hide_answer_buttons() {
+    let answer_buttons = document.getElementsByClassName("answer_button");
+    for (let i = 0; i < answer_buttons.length; ++i) {
+        answer_buttons[i].style.visibility = 'hidden';
+    }
+}
+
+function go_to_homepage() {
+    window.location.href = "index.html";
+}
+
+window.onload = when_page_load;

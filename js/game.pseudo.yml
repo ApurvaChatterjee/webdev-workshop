@@ -1,26 +1,33 @@
 - When the page loads:
-    - Fetch a Questions
+    - Fetch a Questions using TRIVIA DB API
     
 - When the Question is Fetched:
     - Update Question UI
-    - fetch the image 
+    - update The Answer Buttons UI
+    - Store the Answer
+    - fetch the image(Clue Image gif) from tenor API using the correct answer as Search QUERY
 
-- when the image is Fetched:
+- when the image(clue gif) is Fetched:
     - update the image UI(url)
- 
-- fetch_a_question:
-    - call opentdb API and pass the Appropriate parameters
-    - when done, call "when question is fetched"
 
-- update_question_ui:
-    - update the question text
-    - generate the answer option
-    - update the answer buttons text
-    - fetch_an_image
+- when answer button is clicked:
+    -check correct answer:
+    -yes:
+        handle "correct_answer" case
 
-- fetch_an_image:
-    - call tenor API and pass the Appropriate parameters
-    - trigger 'image fetched event' with image data (url to be shown)
-
-- update_image_ui:
-    - update the image in the html document
+    -No:
+        handle "wrong_answer"case
+- correct_answer case :
+    - make the button green 
+    - increament level by 1
+    - fetch new question 
+- wrong_answer case :
+    - make the button red 
+    - decrease lives by 1 
+    - update the lives left
+    - if lives=0:
+        -yes:
+            -game 0ver
+            -jump to home page
+        -No:
+            -fetch new question
