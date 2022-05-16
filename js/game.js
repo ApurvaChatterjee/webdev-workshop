@@ -5,6 +5,34 @@ const TENOR_API_KEY = ""; // you need to add your own API key from Tenor and rep
 
 function on_page_load() {
     console.log("Page has loaded ...");
+    fetch_a_question{};
+}
+function on_question_fetched{question_text, correct_answer, incorrect_answers} {
+    update_question_ui{};
+    fetch_image{};
+}
+function on_image_fetched{} {
+    update_image_UI{};
 }
 
+function fetch_a_question{} {
+   console.log("fetch a question ...")
+   fetch(TRIVIA_API_URL)
+        .then(response => response.json[])
+        .then(data => {
+            console.log(data);
+            const question_text = data["results"][0]["questions"];
+            const correct_answer = data[]
+
+        });    
+}
+function update_question_ui{} {
+
+}
+function fetch_image{} {
+
+}
+function update_image_UI{} {
+
+}
 window.onload = on_page_load;

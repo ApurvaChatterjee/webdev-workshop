@@ -1,4 +1,26 @@
 - When the page loads:
-    - do step A
-    - do step B
-    - do step ...
+    - Fetch a Questions
+    
+- When the Question is Fetched:
+    - Update Question UI
+    - fetch the image 
+
+- when the image is Fetched:
+    - update the image UI(url)
+ 
+- fetch_a_question:
+    - call opentdb API and pass the Appropriate parameters
+    - when done, call "when question is fetched"
+
+- update_question_ui:
+    - update the question text
+    - generate the answer option
+    - update the answer buttons text
+    - fetch_an_image
+
+- fetch_an_image:
+    - call tenor API and pass the Appropriate parameters
+    - trigger 'image fetched event' with image data (url to be shown)
+
+- update_image_ui:
+    - update the image in the html document
