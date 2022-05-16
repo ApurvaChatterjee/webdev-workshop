@@ -14,12 +14,60 @@
 
         <!--Add your CSS rules here-->
         <style>
-            
+            html {
+                height: 100%;
+            }
+            body {
+                height: 100%;
+
+                text-align: center;
+                color: #0c0c0d;
+                font-size: 24px;
+
+                background: url(https://images.unsplash.com/photo-1572975165675-ab322e4b55ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80);
+                background-size: 150% 150%;
+                background-repeat: no-repeat;
+
+                animation: bg_animation 15s ease-in-out infinite;
+            }
+            @keyframes bg_animation {
+
+                0% {
+                    background-position: left;
+                }
+
+                50% {
+                    background-position: right;
+                }
+
+                100% {
+                    background-position: left;
+                }
+            }
+            h1, h2 {
+                font-family: 'Titan one', cursive;
+            }
+            a {
+                text-decoration: none;
+            }
+            #container{
+                height: 100%;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
         </style>
     </head>
     <body>
-        <h1>Hollywood Quiz</h1>
-        <a href="game.html"><i class="ri-play-circle-fill"></i></a>
-        <h2>PLAY</h2>
+        <div id="container">
+            <h1>Hollywood Quiz</h1>
+            <div>
+                <a href="game.html"><i class="ri-play-circle-fill ri-3x"></i></a>
+                <h2>PLAY</h2>
+            </div>
+            <div></div>
+        </div>
+        
     </body>
 </html>
